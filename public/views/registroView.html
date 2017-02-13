@@ -1,0 +1,22 @@
+
+<div class=" container">
+	<div class="col-sm-6 col-sm-offset-3">
+		<div class="well">
+			<div class="row">
+				<h3>Registro</h3>
+
+			</div>
+			<button class="btn btn-primary" style="margin-bottom: 10px" ng-click="regc.getAll()">Get Users!</button>
+			<ul class="collection" ng-if="regc.registros">
+				<li class="collection-item" ng-repeat="reg in regc.registros">
+					<h4>{{reg.concepto}}</h4>
+				</li>
+			</ul>
+			<div class="alert alert-danger" ng-if="user.error">
+				<strong>There was an error: </strong> {{user.error.error}}
+				<br>Please go back and login again
+			</div>
+		</div>
+	</div>
+</div>
+

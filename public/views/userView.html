@@ -1,0 +1,121 @@
+<div class=" container">
+	<div class="col-sm-6 col-sm-offset-3">
+		<div class="well">
+			<div class="row">
+				<h3>Usuarios</h3>
+
+			</div>
+			<div class="row"> 
+				<a class="waves-effect waves-light btn-large" ng-click="user.getUsers()"><i class="material-icons right">visibility</i>Mostrar</a>
+				<a class="waves-effect waves-light btn-large" ng-click="PrepareToCreate()"><i class="material-icons right" >library_add</i>Crear</a>
+				
+			</div>
+		
+
+ <!--<input ng-model="q" id="search" class="form-control" placeholder="Filter text">-->
+
+            <div ng-show="showCrear" ng-model="item">
+				{{item.message}}
+            	 <input id="email"  type="email" class="validate" placeholder="nuevo@email.com" ng-model="item.email">
+		 	        
+		          <input id="name" type="text" class="validate" placeholder="nuevo nombre" ng-model="item.name">
+					
+		          <br/>
+				   <input id="password" type="password" placeholder="contraseña" ng-model="item.password">
+			  	  <p >
+			        <input type="checkbox" id="test5" ng-model="item.Rol" />
+			        <label for="test5">Encargado!</label>
+					
+			      </p>	
+			    	
+				<a class="waves-effect waves-light btn-large" ng-click="Create(item)">aceptar</a>
+            </div>
+            <!--<input type="text" ng-model="q"></input>-->
+			<div ng-if="user.users" ng-show="!showCrear">
+						<ul class="collection" ng-repeat="item in user.items | filter:q:name" ng-hide="item.id==idDeleted">
+						        <li class="collection-item" >
+						         <div>
+
+								<label class="black-text" ng-show="item.id!=idToEdit">{{item.email}}</label>
+							       <input id="email" type="email" class="validate" placeholder="nuevo@email.com" ng-model="item.email" ng-show="item.id==idToEdit">
+							       <label>{{item.messagemail}}</label>
+							    
+						          <br/>
+						          <label class="black-text" ng-show="item.id!=idToEdit">{{item.name}}</label>
+						          <input id="name" type="text" class="validate" placeholder="nuevo nombre" ng-model="item.name" ng-show="item.id==idToEdit">
+									
+										 <label>{{item.messagename}}</label>
+									
+								   
+
+						          <br/>	
+								  <label class="black-text" ng-show="item.id!=idToEdit">{{item.Rol}}</label>
+							  	 
+						            <ul class="collection" ng-show="item.id==idToEdit" style="cursor:pointer;">
+								      <li class="collection-item" ng-click="item.Rol='Encargado'" ng-class={active:item.Rol==='Encargado'}>Encargado</li>
+
+								      <li class="collection-item"  ng-click="item.Rol='Cajero'" ng-class={active:item.Rol==='Cajero'}>Cajero</li>
+								    </ul>
+																	  									
+						        	<label class="secondary-content"  ng-click="PrepareToEdit(item)" ng-show="item.id!=idToEdit"  style="cursor:pointer">
+						        		<i class="material-icons">mode_edit</i>Editar
+						        	</label>
+						            
+									<a class="right waves-effect waves-light btn-flat"  ng-show="item.id==idToEdit" ng-click="actualizarUsuario(item)">Actualizar</a>
+								    <a class="right waves-effect waves-light btn-flat"  ng-show="item.id==idToEdit" ng-click="eliminarUsuario(item.id)">Eliminar</a>
+						       </div>
+						      </li>
+
+						</ul>
+
+<!--paginacion     -------------->
+
+				 		<ul ng-if="user.pager.pages.length" class="pagination">
+				            <li ng-class="{disabled:user.pager.currentPage === 1}">
+				                <a ng-click="user.setPage(1)">Primer</a>
+				            </li>
+				            <li ng-class="{disabled:user.pager.currentPage === 1}">
+				                <a ng-click="user.setPage(user.pager.currentPage - 1)">Anterior</a>
+				            </li>
+				            <li ng-repeat="page in user.pager.pages" ng-class="{active:user.pager.currentPage === page}">
+				                <a ng-click="user.setPage(page)"  style="cursor:pointer">{{page}}</a>
+				            </li>               
+				            <li ng-class="{disabled:user.pager.currentPage === user.pager.totalPages}">
+				                <a ng-click="user.setPage(user.pager.currentPage + 1)">Siguiente</a>
+				            </li>
+				            <li ng-class="{disabled:user.pager.currentPage === user.pager.totalPages}">
+				                <a ng-click="user.setPage(user.pager.totalPages)">Ultimo</a>
+				            </li>
+				        </ul>
+<!--paginacion     -------------->
+
+<!--editin form-->
+
+			</div>
+<!--			<button type="button" class="btn btn-primary" ng-click="user.watch()">llamar servicio</button>-->
+			
+			<div class="alert alert-danger" ng-if="user.error">
+				<strong>There was an error: </strong> {{user.error.error}}
+				<br>Please go back and login again
+			</div>
+		</div>
+		<!--editin form 	  <div class="row" id="Form" ng-show="showEdit">
+	    <form class="col s12">
+	      <div class="row">
+	        <div class="input-field col s6">
+	          <i class="material-icons prefix">mode_edit</i>
+	          <textarea id="icon_prefix2" class="materialize-textarea"></textarea>
+	          <label for="icon_prefix2">First Name</label>
+	        </div>
+
+						        	<label class="secondary-content"  ng-click="changeToTrue(false)">
+						        		<i class="material-icons">mode_edit</i>Editar
+						        	</label>
+	      </div>
+	    </form>
+	  </div>-->
+
+        
+	</div>
+						           
+   

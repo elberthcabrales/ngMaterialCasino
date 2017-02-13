@@ -1,0 +1,18 @@
+<div class=" container" ng-if="!auth.isAuthenticated()">
+
+<div class="col s4 col offset-s4">
+		<h3>Login</h3>
+		  <form class="col s15">
+			  <div class="input-field col s6">
+		    	<input type="email" class="validate" placeholder="Email" ng-model="auth.email">
+		  	</div>
+		  	  <div class="input-field col s6">
+		  	
+		    	<input type="password" class="validate" placeholder="Password" ng-model="auth.password">
+		    	</div>
+		  
+		  	<button class="btn" ng-click="auth.login()">Entrar</button>
+		</form>
+	</div>
+</div>
+
