@@ -1,18 +1,27 @@
-<div class=" container" ng-if="!auth.isAuthenticated()">
 
-<div class="col s4 col offset-s4">
-		<h3>Login</h3>
-		  <form class="col s15">
-			  <div class="input-field col s6">
-		    	<input type="email" class="validate" placeholder="Email" ng-model="auth.email">
-		  	</div>
-		  	  <div class="input-field col s6">
-		  	
-		    	<input type="password" class="validate" placeholder="Password" ng-model="auth.password">
-		    	</div>
-		  
-		  	<button class="btn" ng-click="auth.login()">Entrar</button>
-		</form>
-	</div>
+  <md-content  flex layout="column"  layout-align="center center"  layout-padding class="contentdemoBasicUsage" ng-if="!auth.isAuthenticated()" >
+  
+	 <md-card  layout="row" >
+	<!--  <img src="card-image.png" class="md-card-image" alt="Autentificacion"> -->
+		 <md-card-content>
+		 	   <i class="material-icons">account_box</i>
+	   <md-input-container class="md-block">
+
+				<label>Username</label>
+				<input ng-model="auth.email" type="email" placeholder="Email" ng-required="true">
+			</md-input-container>
+
+			<md-input-container class="md-block">
+				<label>contraseña</label>		  	
+				<input type="password" placeholder="Password" ng-model="auth.password">
+				<input type="hidden" ng-model="auth.tokencsrf" value="auth.csrftoken_value">
+			</md-input-container>
+	 </md-card-content>
+	 <md-card-footer>
+	   <md-button flex class="md-primary md-hue-1" ng-click="auth.login()">Entrar</md-button>
+	 </md-card-footer>
+	</md-card>
+
+</md-content>
 </div>
-
+<!-- {{auth.csrftoken_value}} -->

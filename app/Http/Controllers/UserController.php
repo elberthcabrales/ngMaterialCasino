@@ -12,6 +12,7 @@ use App\User;
 use Exception; //para usar las excepciones debo esportarlas primero (-.-)
 use Validator;
 use Illuminate\Support\Facades\Hash;
+// use App\Http\Middleware\VerifyCsrfToken;
 
 class UserController extends Controller
 {
@@ -21,6 +22,7 @@ class UserController extends Controller
         // except for the authenticate method. We don't want to prevent
         // the user from retrieving their token if they don't already have it
         $this->middleware('jwt.auth');
+     // $this->middleware('vctoken', ['except' => ['index','show']]);
     }
     /**
      * Display a listing of the resource.
@@ -80,7 +82,6 @@ class UserController extends Controller
     {
         // Retrieve all the users in the database and return them        
         $users = User::find($id);
-
         return $users;
     }
 

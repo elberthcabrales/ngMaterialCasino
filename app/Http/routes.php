@@ -17,6 +17,8 @@ Route::get('/', function () {
 
 Route::group(['prefix' => 'api'], function()
 {
+	Blade::setEscapedContentTags('[[', ']]');
+    Blade::setContentTags('[[[', ']]]');
 	//aqui solo crear el index en el resource
 	//Route::resource('home', 'AuthenticateController', ['only' => ['index']]);
 	Route::post('authenticate', 'AuthenticateController@authenticate');
@@ -31,5 +33,11 @@ Route::group(['prefix' => 'api'], function()
 
 	Route::resource('user', 'UserController', ['only' => ['index', 'store','show','update', 'destroy']]);
 	Route::put('user/update/', 'UserController@update');
+
+	// Returns the csrf token for the current visitor's session.
+	// Route::get('csrf', function() {
+	//     return Session::token();
+	// });
 });
+
 

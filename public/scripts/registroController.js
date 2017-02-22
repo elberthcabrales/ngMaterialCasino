@@ -6,7 +6,7 @@
 		.module('authApp')
 		.controller('RegistroController', RegistroController);
 
-	function RegistroController($http) {
+	function RegistroController($http, webServiceFactory) {
 
 		var vm = this;
 
@@ -24,6 +24,13 @@
 				vm.error = error;
 			});
 		}
+		// vm.getCsrf = function(){
+		// 	webServiceFactory.getCsrf().success(function(csrfTokn) {
+		// 			console.log(csrfTokn);
+		// 		}).error(function(error) {
+		// 			vm.error = error;
+		// 		});
+		// }
 	}
 	
 })();

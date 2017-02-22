@@ -6,7 +6,7 @@
 		.module('authApp').controller('NavController', NavController);
 
 
-	function NavController($auth, $state, $location, $cookieStore) {
+	function NavController($auth,$scope, $state, $location, $cookieStore,$mdSidenav) {
 			var vm = this;
 			vm.email="";
 			vm.barnav=true;
@@ -32,7 +32,11 @@
 				$cookieStore.remove('email');
 				$auth.logout();
 			};
-			
+			$scope.openSidebar = function() {
+	          //$scope.sidebarTitle = 'Add a Classified';
+	          $mdSidenav('sidenaveLeft').open();
+	        }
+			  
 		}
 
 

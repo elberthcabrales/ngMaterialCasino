@@ -11,6 +11,8 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 use App\User;
 use Exception; //para usar las excepciones debo esportarlas primero (-.-)
 use Validator;
+// use App\Http\Middleware\CustomCsrfTokenVerify;
+// use Session;
 
 class AuthenticateController extends Controller
 {
@@ -23,6 +25,8 @@ class AuthenticateController extends Controller
         // except for the authenticate method. We don't want to prevent
         // the user from retrieving their token if they don't already have it
         $this->middleware('jwt.auth', ['except' => ['authenticate']]);
+        // $this->middleware(CustomCsrfTokenVerify::class);
+        // $this->middleware('vctoken');
     }
 
 
@@ -33,35 +37,24 @@ class AuthenticateController extends Controller
      */
     public function authenticate(Request $request)
     {
-        $credentials = $request->only('email', 'password');
-
-        try {
-            // verify the credentials and create a token for the user
-            if (! $token = JWTAuth::attempt($credentials)) {
-                return response()->json(['error' => 'invalid_credentials'], 401);
+           $credentials = $request->only('email', 'password');
+        
+            try {
+                // verify the credentials and create a token for the user
+                if (! $token = JWTAuth::attempt($credentials)) {
+                    return response()->json(['error' => 'invalid_credentials'], 401);
+                }
+            } catch (JWTException $e) {
+                // something went wrong
+                return response()->json(['error' => 'could_not_create_token'], 500);
             }
-        } catch (JWTException $e) {
-            // something went wrong
-            return response()->json(['error' => 'could_not_create_token'], 500);
-        }
 
-        // if no errors are encountered we can return a JWT
-        return response()->json(compact('token'));
+            // if no errors are encountered we can return a JWT
+            return response()->json(compact('token'));
     }
 }
-use \Prettus\Validator\LaravelValidator;
-
-class PostValidator extends LaravelValidator {
-
-    protected $rules = [
-        ValidatorInterface::RULE_CREATE => [
-            'title' => 'required',
-            'text'  => 'min:3',
-            'author'=> 'required'
-        ],
-        ValidatorInterface::RULE_UPDATE => [
-            'title' => 'required'
-        ]
-   ];
-
-}
+// en caso de que sea una peticion ajax
+// if (Session::token() != $request->header('X-Csrf-Token') )
+// {
+//     return Response::json('CSRF does not match', 400);
+// }

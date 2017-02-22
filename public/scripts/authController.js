@@ -7,15 +7,17 @@
 		.controller('AuthController', AuthController);
 
 
-	function AuthController($auth, $state, $scope, $cookieStore) {
+	function AuthController($auth, $state, $scope, $cookieStore, CSRF_TOKEN) {
 
 		var vm = this;
+		vm.csrftoken_value = CSRF_TOKEN;
 
 		vm.login = function() {
 
 			var credentials = {
 				email: vm.email,
-				password: vm.password
+				password: vm.password,
+				_token: CSRF_TOKEN
 			}
 
 			// Use Satellizer's $auth service to login

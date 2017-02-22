@@ -11,6 +11,7 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 use App\Registro;
 use Illuminate\Support\Facades\DB;
 
+
 class RegistroController extends Controller
 {
     /**
@@ -24,7 +25,7 @@ class RegistroController extends Controller
         // Apply the jwt.auth middleware to all methods in this controller
         // except for the index method. We don't want to prevent
         // the user from retrieving their token if they don't already have it
-        //$this->middleware('jwt.auth', ['except' => ['index']]);
+        $this->middleware('jwt.auth', ['except' => ['index']]);
     }
 
     public function index()
