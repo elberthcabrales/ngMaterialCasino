@@ -16,10 +16,14 @@
 				<input type="password" placeholder="Password" ng-model="auth.password">
 				<input type="hidden" ng-model="auth.tokencsrf" value="auth.csrftoken_value">
 			</md-input-container>
+			 <md-card-footer>
+		 <label>{{error.data.error}}</label>
+	 </md-card-footer>
 	 </md-card-content>
 	 <md-card-footer>
 	   <md-button flex class="md-primary md-hue-1" ng-click="auth.login()">Entrar</md-button>
 	 </md-card-footer>
+	
 	</md-card>
 
 </md-content>

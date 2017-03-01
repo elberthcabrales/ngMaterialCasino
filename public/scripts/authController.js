@@ -7,17 +7,17 @@
 		.controller('AuthController', AuthController);
 
 
-	function AuthController($auth, $state, $scope, $cookieStore, CSRF_TOKEN) {
+	function AuthController($auth, $state, $scope, $cookieStore) {
 
 		var vm = this;
-		vm.csrftoken_value = CSRF_TOKEN;
-
+		// vm.csrftoken_value = CSRF_TOKEN;
+		$scope.error=""
 		vm.login = function() {
 
 			var credentials = {
 				email: vm.email,
 				password: vm.password,
-				_token: CSRF_TOKEN
+				// _token: CSRF_TOKEN
 			}
 
 			// Use Satellizer's $auth service to login
@@ -28,7 +28,7 @@
 				$cookieStore.put('email', data.config.data.email);
 				$state.go('registros');
 			}, function(error) {
-				console.log(error);
+				$scope.error=error;
 			});
 		}
 		vm.isAuthenticated = function() {

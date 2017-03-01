@@ -48,7 +48,8 @@ class UserController extends Controller
         $validator= Validator::make($request->all(),[
                 'email' => 'required|email|max:200|unique:users',
                 'name'  => 'required|unique:users',
-                'Rol'   => 'boolean'
+                // 'Rol'   => 'boolean',
+                'password' => 'required'
                 ]);
             try{
             //$affectedRows = User::where('id', '>', $id)->delete();
@@ -62,7 +63,7 @@ class UserController extends Controller
                 $user->save();
                 return response()->json($user);
             }else{
-                return response()->json($validator->errors());
+                return response()->json(array('errors'=>$validator->errors()));
             }
             
             }
@@ -99,7 +100,8 @@ class UserController extends Controller
         //$arg = $request->input('id');
         $validator= Validator::make($request->all(),[
                 'email' => 'required|email|max:200|unique:users',
-                'name' => 'required|unique:users', 
+                'name' => 'required|unique:users',
+                'password'=>'required|max:20' 
                 ]);
 
     
@@ -116,6 +118,11 @@ class UserController extends Controller
             /*$user->name=$request->input('name');
             $user->email=$request->input('email');*/
             $user->Rol=$request->input('Rol');
+
+            if(!$validator->errors()->has('password'))
+            {
+                 $user->password=Hash::make($request->input('password'));
+            }
             $user->save();
             return response()
             ->json(array('user'=>$user,'errors'=>$validator->errors())); 

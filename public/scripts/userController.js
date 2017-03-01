@@ -6,7 +6,8 @@
 		.module('authApp')
 		.controller('UserController', UserController);
 
-	function UserController($http, logTest, $scope, webServiceFactory) {
+	function UserController($http, logTest, $scope, webServiceFactory, $mdToast) {
+
 
 		var vm = this;
 		vm.pager = {};
@@ -18,10 +19,10 @@
 		$scope.showCrear;
 		$scope.idDeleted;
 		$scope.Rol = ["Ecargado","Cajero"];
+		$scope.errorErrors=[];
 		
 		$scope.PrepareToEdit = function(user){
 			$scope.idToEdit=user.id;
-			
 			//console.log($("#botonx").text()); si entra jquery
 		}
 		$scope.PrepareToCreate = function(){
@@ -32,14 +33,21 @@
 		$scope.Create = function(item){
 			//console.log(item);
 			webServiceFactory.createUser(item).then(function(response){
-					// console.log(response);
-					 var i=0;
-					 item.message="se creo correctamente"
-					 angular.forEach(response.data,function(v,k){
-									 item.message=v[i];								
-									 i++;	
+					 console.log(response);
+					 // console.log(response);
+					if(response.data.errors)
+					{
+					 $scope.errorErrors=[];
+					 angular.forEach(response.data.errors,function(v,k){
+									v.forEach(function(entry) {
+									    // console.log(entry);
+									    $scope.errorErrors.push(entry);
+									});
 							 });
-					vm.getUsers();
+					}else
+					{
+					 vm.getUsers();
+					}
 				},
 				function(response){
 						console.log("Error al crear  :"+response )
@@ -78,7 +86,7 @@
 		  
 			webServiceFactory.updateUser(data).then(
 				function(response){
-					console.log(response.data.errors);
+					// console.log(response.data.errors);
 					 
 					 angular.forEach(vm.users, function(value, key) {
 					 	 //key es el numero de iteracion
@@ -88,10 +96,13 @@
 			                 value.email=response.data.user.email;
 			                 value.name=response.data.user.name;
 			                  angular.forEach(response.data.errors.email,function(v,k){
-									 value.messagemail=v;		
+									 value.messagemail="no se actualizo el email "+v;		
 							 });
 			                angular.forEach(response.data.errors.name,function(v,k){
-									 value.messagename=v;		
+									 value.messagename="no se actualizo el nombre "+v;		
+							 });
+			                angular.forEach(response.data.errors.password,function(v,k){
+									 value.messagepassord="no se actualizo el la contraseña "+v;		
 							 });
 			             }
 			             

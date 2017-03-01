@@ -32,6 +32,7 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'jwt.auth' => \Tymon\JWTAuth\Middleware\GetUserFromToken::class,
         'jwt.refresh' => \Tymon\JWTAuth\Middleware\RefreshToken::class,
-        'vctoken' => \App\Http\Middleware\CustomCsrfTokenVerify::class,
+        'CheckRol' => \App\Http\Middleware\CustomCsrfTokenVerify::class,
+        // 'vctoken' => \App\Http\Middleware\CustomCsrfTokenVerify::class,
     ];
 }

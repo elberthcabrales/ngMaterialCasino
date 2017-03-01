@@ -2,7 +2,7 @@
 	"use strict";
 	angular
 	.module("authApp")
-	.factory('webServiceFactory', function($http, CSRF_TOKEN){
+	.factory('webServiceFactory', function($http){
 		function getUsers(){
 			// console.log(CSRF_TOKEN);
 			return $http.get('api/user');
@@ -25,7 +25,7 @@
 		{
 			 return $http({
                     method: 'GET',
-                    url: 'http://homestead.app/scripts/data.json'
+                    url: 'http://homestead.app/scripts/data2.json'
                 });
 		}
 		return{

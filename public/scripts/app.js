@@ -3,7 +3,7 @@
 	'use strict';
 //  se agregaron 'dataGrid', 'pagination' para la paginacion
 	angular
-		.module('authApp', ['dataGrid', 'pagination','ngMaterial','ui.router', 'satellizer','ngCookies','ngRoute','MiPrimerService'])
+		.module('authApp', ['dataGrid', 'pagination','ngMaterial','ui.router','satellizer','ngCookies','ngRoute','MiPrimerService'])
 		.config(function($stateProvider, $urlRouterProvider, $authProvider,$mdThemingProvider) {
 			// configuracion del tema
 			$mdThemingProvider.theme('default').primaryPalette('teal').accentPalette('orange');
@@ -29,6 +29,10 @@
 					url: '/canjeos',
 					templateUrl: '../views/canjeosView.html',
 					controller: 'CanjeosController as canjeos'
+				}).state('fichas', {
+					url: '/fichas',
+					templateUrl: '../views/fichasView.html',
+					controller: 'FichasController as fichas'
 				}).state('registros', {
 					url: '/registros',
 					templateUrl: '../views/registroView.html',

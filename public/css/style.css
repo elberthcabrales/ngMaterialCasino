@@ -1,4 +1,6 @@
-
+.red{
+  color:red;
+}
 .removeScrolly{
   overflow-x: hidden;
 }

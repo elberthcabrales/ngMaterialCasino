@@ -14,8 +14,13 @@
 <!-- css para paginacion -->
       <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
       <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.6/material.indigo-blue.min.css">
+      <!--css tables -->
+      <link rel="stylesheet" type="text/css" href="node_modules/md-data-table/dist/md-data-table-style.css">
+
+
     </head>
     <body ng-app="authApp"  ng-cloak>
+
     <!-- nav controller context -->
     <div ng-controller="NavController as nav" id="navContext">
     
@@ -92,12 +97,13 @@
       <!-- CONTENIDO CARGADO DESDE ANGULARJS -->
       <div ui-view></div>
 
-<!-- [[csrf_token()]] -->
+<!-- [[csrf_token()]]  el coken solo aprece si esta el template como .blade.php-->
 
 
     </body>
  
-    
+
+
       <!-- Angular Material requires Angular.js Libraries -->
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
@@ -118,6 +124,10 @@
     <script src="http://angular-data-grid.github.io/dist/dataGrid.js"></script>
     <!-- undescore -->
     <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+    <!-- tables -->
+    <script src="node_modules/md-data-table/dist/md-data-table.js"></script>
+    <script src="node_modules/md-data-table/dist/md-data-table-templates.js"></script>
+
     <!-- Application Scripts -->
     <script src="scripts/app.js"></script>
     <script src="scripts/authController.js"></script>
@@ -127,7 +137,9 @@
     <script src="scripts/navController.js"></script>
     <script src="scripts/services.js"></script>
     <script src="scripts/factorys.js"></script>
-     <script>
-  angular.module("authApp").constant("CSRF_TOKEN", '[[csrf_token()]]');
-</script>
+    <script src="scripts/fichasController.js"></script>
+    <!-- solo aprece el csrf_token si esta como index.blade.php
+    <script>
+      angular.module("authApp").constant("CSRF_TOKEN", '[[csrf_token()]]');
+    </script> -->
 </html>
