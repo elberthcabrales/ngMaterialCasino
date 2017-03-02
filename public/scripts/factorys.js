@@ -25,7 +25,7 @@
 		{
 			 return $http({
                     method: 'GET',
-                    url: 'http://homestead.app/scripts/data2.json'
+                    url: 'http://homestead.app/scripts/data.json'
                 });
 		}
 		return{

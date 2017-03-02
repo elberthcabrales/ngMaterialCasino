@@ -3,7 +3,8 @@
 	'use strict';
 //  se agregaron 'dataGrid', 'pagination' para la paginacion
 	angular
-		.module('authApp', ['dataGrid', 'pagination','ngMaterial','ui.router','satellizer','ngCookies','ngRoute','MiPrimerService'])
+		.module('authApp', ['dataGrid', 'pagination','ngMaterial','ui.router',
+			'satellizer','ngCookies','ngRoute','MiPrimerService','md.data.table'])
 		.config(function($stateProvider, $urlRouterProvider, $authProvider,$mdThemingProvider) {
 			// configuracion del tema
 			$mdThemingProvider.theme('default').primaryPalette('teal').accentPalette('orange');
