@@ -23,6 +23,7 @@ class UserController extends Controller
         // the user from retrieving their token if they don't already have it
         $this->middleware('jwt.auth');
      // $this->middleware('vctoken', ['except' => ['index','show']]);
+        $this->middleware('CheckRol');
     }
     /**
      * Display a listing of the resource.
@@ -32,7 +33,8 @@ class UserController extends Controller
     public function index()
     {
         // Retrieve all the users in the database and return them        
-        $users = User::all();
+        $users = User::withTrashed()->get();
+        // User::withTrashed()->restore();
         return $users;
     }
 
@@ -49,7 +51,7 @@ class UserController extends Controller
                 'email' => 'required|email|max:200|unique:users',
                 'name'  => 'required|unique:users',
                 // 'Rol'   => 'boolean',
-                'password' => 'required'
+                'password' => 'required',
                 ]);
             try{
             //$affectedRows = User::where('id', '>', $id)->delete();
@@ -101,29 +103,30 @@ class UserController extends Controller
         $validator= Validator::make($request->all(),[
                 'email' => 'required|email|max:200|unique:users',
                 'name' => 'required|unique:users',
-                'password'=>'required|max:20' 
+                'password'=>'required|max:20',
                 ]);
 
     
         try{
 
             //$affectedRows = User::where('id', '>', $id)->delete();
-            $user = User::find($request->input('id'));
+            $user = User::withTrashed()->find($request->input('id'));
             if(!$validator->errors()->has('email')){
                     $user->email=$request->input('email');
             }
             if(!$validator->errors()->has('name')){
                     $user->name=$request->input('name');
             }
-            /*$user->name=$request->input('name');
+                        /*$user->name=$request->input('name');
             $user->email=$request->input('email');*/
             $user->Rol=$request->input('Rol');
 
             if(!$validator->errors()->has('password'))
             {
                  $user->password=Hash::make($request->input('password'));
-            }
-            $user->save();
+            } 
+           $user->save();
+           
             return response()
             ->json(array('user'=>$user,'errors'=>$validator->errors())); 
             }
@@ -141,18 +144,37 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
+        $Currentuser = JWTAuth::parseToken()->authenticate();
+     
+        $user = User::find($id);
+        if($user!=null && $Currentuser->id!=$id){
           $respuesta =null;
+       
+            try{
+                //$affectedRows = User::where('id', '>', $id)->delete();
+                
+                $respuesta = $user;
+                $user->delete();
+                return $respuesta;
+                }
+            catch (Exception $e)
+                { 
+                    return $e->getMessage();
+                }
+         }else{
+            return response()->json(array('borrado'=>"no se pudo borrar al usuario"));
+         }
+    }
+    public function restore(Request $request)
+    {
         try{
-            //$affectedRows = User::where('id', '>', $id)->delete();
-            $user = User::find($id);
-            $respuesta = $user;
-            $user->delete();
-            return $respuesta;
-            }
-        catch (Exception $e)
-            { 
-                return $e->getMessage();
-            }
+            $user = User::onlyTrashed()->find($request->input('id'));
+            return response()->json($user->restore());               
+        }
+        
+        catch (Exception $e){                 
+                return response()->json($e->getMessage());
+        }
     }
    
 }

@@ -3,11 +3,11 @@
 	'use strict';
 //  se agregaron 'dataGrid', 'pagination' para la paginacion
 	angular
-		.module('authApp', ['dataGrid', 'pagination','ngMaterial','ui.router',
+		.module('authApp', ['ngMaterial','ui.router',
 			'satellizer','ngCookies','ngRoute','MiPrimerService','md.data.table'])
 		.config(function($stateProvider, $urlRouterProvider, $authProvider,$mdThemingProvider) {
 			// configuracion del tema
-			$mdThemingProvider.theme('default').primaryPalette('teal').accentPalette('orange');
+			$mdThemingProvider.theme('dark-purple').primaryPalette('teal').accentPalette('indigo');
 			// Satellizer configuration that specifies which API
 			// route the JWT should be retrieved from
 			$authProvider.loginUrl = '/api/authenticate';
@@ -30,10 +30,10 @@
 					url: '/canjeos',
 					templateUrl: '../views/canjeosView.html',
 					controller: 'CanjeosController as canjeos'
-				}).state('fichas', {
-					url: '/fichas',
-					templateUrl: '../views/fichasView.html',
-					controller: 'FichasController as fichas'
+				}).state('table', {
+					url: '/table',
+					templateUrl: '../views/tableView.html',
+					controller: 'TableController as table'
 				}).state('registros', {
 					url: '/registros',
 					templateUrl: '../views/registroView.html',

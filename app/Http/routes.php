@@ -32,7 +32,8 @@ Route::group(['prefix' => 'api'], function()
 	Route::post('user/create/', 'AuthenticateController@create');*/
 
 	Route::resource('user', 'UserController', ['only' => ['index', 'store','show','update', 'destroy']]);
-	Route::put('user/update/', 'UserController@update');
+	// Route::put('user/update/', 'UserController@update');
+	Route::post('user/restore/', 'UserController@restore');
 
 	// Returns the csrf token for the current visitor's session.
 	// Route::get('csrf', function() {

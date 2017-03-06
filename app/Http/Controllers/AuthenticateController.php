@@ -14,6 +14,7 @@ use Validator;
 // use App\Http\Middleware\CustomCsrfTokenVerify;
 // use Session;
 
+
 class AuthenticateController extends Controller
 {
    
@@ -37,6 +38,7 @@ class AuthenticateController extends Controller
      */
     public function authenticate(Request $request)
     {
+
            $credentials = $request->only('email', 'password');
         
             try {

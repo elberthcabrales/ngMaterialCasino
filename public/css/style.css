@@ -1,6 +1,8 @@
 .red{
   color:red;
 }
+.card-media {
+  background-color: #999999; }
 .removeScrolly{
   overflow-x: hidden;
 }
@@ -9,6 +11,11 @@
   opacity: 0.6;
 }
 /*css para paginacion*/
+#fixedbutton {
+    position: fixed;
+    bottom: 0px;
+    right: 0px; 
+}
 
 th:focus,
 a:focus {

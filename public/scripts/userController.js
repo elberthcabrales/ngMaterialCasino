@@ -6,7 +6,7 @@
 		.module('authApp')
 		.controller('UserController', UserController);
 
-	function UserController($http, logTest, $scope, webServiceFactory, $mdToast) {
+	function UserController($http, logTest, $scope, webServiceFactory, $mdDialog, $mdToast) {
 
 
 		var vm = this;
@@ -20,7 +20,38 @@
 		$scope.idDeleted;
 		$scope.Rol = ["Ecargado","Cajero"];
 		$scope.errorErrors=[];
-		
+
+		$scope.showConfirm = function(ev,usuario) {
+		    // Appending dialog to document.body to cover sidenav in docs app
+		    var confirm = $mdDialog.confirm()
+		          .title('Seguro que deseas restaurar al usuario '+usuario.name)
+		          .textContent('si lo restauras el usuario tendrá acceso al sistema de nuevo')
+		          .ariaLabel('comente al administrador')
+		          .targetEvent(ev)
+		          .ok('aceptar')
+		          .cancel('cancelar');
+
+		    $mdDialog.show(confirm).then(function() {
+		        // ok
+		        webServiceFactory.restoreUser(usuario).then(
+				function(response){
+					if(response){
+						vm.getUsers()
+						$mdToast.show(
+						  $mdToast.simple()
+						    .textContent('se restauro '+usuario.name)
+						    .hideDelay(3000)
+						);
+					}
+				},
+				function(response){
+						console.log("Error al restaurar :"+response )
+				});
+		    }, function() {
+		      // cancel
+		      console.log("se cancelo")
+		    });
+		 };
 		$scope.PrepareToEdit = function(user){
 			$scope.idToEdit=user.id;
 			//console.log($("#botonx").text()); si entra jquery
@@ -61,8 +92,9 @@
 			// on the Laravel side and will return the list of users
 			webServiceFactory.getUsers().success(function(users) {
 					vm.users = users;
-					vm.setPage(1);
-					//console.log(users);
+					$scope.idToEdit=-1;
+					 vm.setPage(1);
+					// console.log(users);
 				}).error(function(error) {
 					vm.error = error;
 				});
@@ -71,11 +103,10 @@
 		$scope.eliminarUsuario = function(id){
 			webServiceFactory.deleteUser(id).then(
 				function(response){
-					//console.log(response);
 					$scope.idDeleted=response.data.id;
 				},
 				function(response){
-						console.log("reposnose failure :"+response )
+						console.log("fallo! :"+response )
 				});
 		}
 	
@@ -109,7 +140,7 @@
 					 });
 					 
 					 $scope.idToEdit=-1;
-					 
+					 vm.getUsers();
 				},
 				function(response){
 						console.log("Error al actualizar :"+response )

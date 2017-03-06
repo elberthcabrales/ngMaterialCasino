@@ -16,6 +16,10 @@
 		{
 			return $http.put('api/user/update/',data);
 		}
+		function restoreUser(data)
+		{
+			return $http.post('api/user/restore/',data);
+		}
 		function createUser(data)
 		{
 			return $http.post('api/user',data);
@@ -33,7 +37,8 @@
 			deleteUser: deleteUser,
 			updateUser: updateUser,
 			createUser: createUser,
-			getData   : getData
+			getData   : getData,
+			restoreUser: restoreUser
 		}
 
 	});

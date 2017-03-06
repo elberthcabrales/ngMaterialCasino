@@ -12,26 +12,22 @@
     </section>
   </md-subheader>
 
-     
-
-
-
   <div ng-if="user.users" ng-show="!showCrear">
 	  <md-list-item ng-repeat="item in user.items" ng-hide="item.id==idDeleted" class="md-2-line">
 	    <div class="md-list-item-text">
-	     <label class="red" ng-show="item.id!=idToEdit">{{item.messagename}}</label>
+	     <!-- <label ng-show="item.id!=idToEdit">{{item.messagename}}</label> -->
 	    	<h3 ng-show="item.id!=idToEdit">{{item.name}}</h3>
 	    	<md-input-container ng-show="item.id==idToEdit">
 	    			<input ng-model="item.name" type="text" aria-label="nombre">
 	    	</md-input-container>
 			
- 			<label class="red" ng-show="item.id!=idToEdit">{{item.messagemail}}</label>
+ 			<!-- <label ng-show="item.id!=idToEdit">{{item.messagemail}}</label> -->
 	    	<p ng-show="item.id!=idToEdit">{{item.email}}</p>
 	    	<md-input-container ng-show="item.id==idToEdit">
 	    			<input ng-model="item.email" type="email" aria-label="Email">
 	    	</md-input-container>
 
-	    	<label class="red" ng-show="item.id!=idToEdit">{{item.messagepassord}}</label>
+	    	<!-- <label ng-show="item.id!=idToEdit">{{item.messagepassord}}</label> -->
 	    	<p ng-show="item.id!=idToEdit">{{item.password}}</p>
 	    	<md-input-container ng-show="item.id==idToEdit">
 	    			<input ng-model="item.password" type="password" aria-label="contraseña" placeholder="contraseña">
@@ -46,61 +42,71 @@
 			       </md-option>
 	            </md-select>
 	    	</md-input-container>
+	    	
+
 	    </div> 
-	     <md-button class="md-primary" ng-click="PrepareToEdit(item)" ng-show="item.id!=idToEdit">editar</md-button>
+
+	     <md-button class="md-primary" ng-click="PrepareToEdit(item)" ng-show="item.id!=idToEdit" ng-hide="item.deleted_at.length>0">editar</md-button>
 	      <md-button class="md-primary" ng-show="item.id==idToEdit" ng-click="actualizarUsuario(item)">Actualizar</md-button>
 	       <md-button class="md-primary"  ng-show="item.id==idToEdit" ng-click="eliminarUsuario(item.id)">Eliminar</md-button>
 	       <md-divider ></md-divider>
+
+	       <div ng-if="item.deleted_at.length>0">
+	    	  <md-switch  aria-label="Switch 1" ng-model="restore" ng-hide="item.id==idToEdit"  ng-change="showConfirm($event,item)">
+			   Restaurarlo
+			  </md-switch>
+	    	</div>
+
 	  </md-list-item>	 
 	  <!--paginacion     -------------->
 
-				 		<ul ng-if="user.pager.pages.length" class="pagination">
-				            <li ng-class="{disabled:user.pager.currentPage === 1}">
-				                <a ng-click="user.setPage(1)">Primer</a>
-				            </li>
-				            <li ng-class="{disabled:user.pager.currentPage === 1}">
-				                <a ng-click="user.setPage(user.pager.currentPage - 1)">Anterior</a>
-				            </li>
-				            <li ng-repeat="page in user.pager.pages" ng-class="{active:user.pager.currentPage === page}">
-				                <a ng-click="user.setPage(page)"  style="cursor:pointer">{{page}}</a>
-				            </li>               
-				            <li ng-class="{disabled:user.pager.currentPage === user.pager.totalPages}">
-				                <a ng-click="user.setPage(user.pager.currentPage + 1)">Siguiente</a>
-				            </li>
-				            <li ng-class="{disabled:user.pager.currentPage === user.pager.totalPages}">
-				                <a ng-click="user.setPage(user.pager.totalPages)">Ultimo</a>
-				            </li>
-				        </ul>
+ 		<ul ng-if="user.pager.pages.length" class="pagination">
+            <li ng-class="{disabled:user.pager.currentPage === 1}">
+                <a ng-click="user.setPage(1)">Primer</a>
+            </li>
+            <li ng-class="{disabled:user.pager.currentPage === 1}">
+                <a ng-click="user.setPage(user.pager.currentPage - 1)">Anterior</a>
+            </li>
+            <li ng-repeat="page in user.pager.pages" ng-class="{active:user.pager.currentPage === page}">
+                <a ng-click="user.setPage(page)"  style="cursor:pointer">{{page}}</a>
+            </li>               
+            <li ng-class="{disabled:user.pager.currentPage === user.pager.totalPages}">
+                <a ng-click="user.setPage(user.pager.currentPage + 1)">Siguiente</a>
+            </li>
+            <li ng-class="{disabled:user.pager.currentPage === user.pager.totalPages}">
+                <a ng-click="user.setPage(user.pager.totalPages)">Ultimo</a>
+            </li>
+        </ul>
 <!--paginacion     -------------->
   </div>
   <!-- formulario para crear -->
-     <md-content layout="column" layout-padding ng-show="showCrear" ng-model="itemToCreate">
-		 	      <md-input-container>
-				    <label>Nombre</label>
-				    <input ng-model="itemToCreate.name" type="text" placeholder="nuevo nombre" ng-required="true">
-				  </md-input-container>
+  <md-content layout="column" layout-padding ng-show="showCrear" ng-model="itemToCreate">
+ 	      <md-input-container>
+		    <label>Nombre</label>
+		    <input ng-model="itemToCreate.name" type="text" placeholder="nuevo nombre" ng-required="true">
+		  </md-input-container>
 
-		          <md-input-container>
-				    <label>Email</label>
-				    <input ng-model="itemToCreate.email" type="email" placeholder="nuevo nombre" ng-required="true">
-				  </md-input-container>
-				  
-				  <md-input-container>
-				    <label>Contraseña</label>
-				    <input ng-model="itemToCreate.password" type="password" placeholder="contraseña" ng-required="true">
-				  </md-input-container>
-			      <md-input-container>
-			    	<md-select ng-model="itemToCreate.Rol" placeholder="Seleccione un rol" ng-required="true">
-				       <md-option value="{{rol}}" ng-repeat="rol in ['Cajero','Encargado']" >
-				                {{rol}}
-				       </md-option>
-		            </md-select>
-		    	 </md-input-container>
-		    	 <div ng-repeat="text in errorErrors">
-		        	<p flex style="background: orange;">{{text}}</h5>
-		        </div> 
-			    <!-- <md-input-container> -->
-				    <md-button class="md-raised  md-primary"  ng-click="Create(itemToCreate)">aceptar</md-botton>
+          <md-input-container>
+		    <label>Email</label>
+		    <input ng-model="itemToCreate.email" type="email" placeholder="nuevo nombre" ng-required="true">
+		  </md-input-container>
+		  
+		  <md-input-container>
+		    <label>Contraseña</label>
+		    <input ng-model="itemToCreate.password" type="password" placeholder="contraseña" ng-required="true">
+		  </md-input-container>
+	      <md-input-container>
+	    	<md-select ng-model="itemToCreate.Rol" placeholder="Seleccione un rol" ng-required="true">
+		       <md-option value="{{rol}}" ng-repeat="rol in ['Cajero','Encargado']" >
+		                {{rol}}
+		       </md-option>
+            </md-select>
+    	 </md-input-container>
+    	 <div ng-repeat="text in errorErrors">
+        	<p flex style="background: orange;">{{text}}</h5>
+        </div> 
+	    <!-- <md-input-container> -->
+		<md-button class="md-raised  md-primary"  ng-click="Create(itemToCreate)">aceptar</md-botton>
 			    <!-- </md-input-container> -->
        </md-content>
 </md-list>
